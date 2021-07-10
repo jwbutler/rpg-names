@@ -19,7 +19,7 @@ const generateConsonantArray = (numConsonants: number): string[] => {
     consonantArray.push(randomConsonant());
   }
   return consonantArray;
-}
+};
 
 const generateVowelPatterns = (minVowels: number, maxVowels: number) => {
   const targetNumVowels = random.randint(minVowels, maxVowels)
@@ -39,7 +39,7 @@ const generateVowelPatterns = (minVowels: number, maxVowels: number) => {
     }
   }
   return patterns;
-}
+};
 
 const addVowels = (consonantArray: string[], vowelPattern: string[]): string[] => {
   let consonantIndex = 0;
@@ -51,7 +51,7 @@ const addVowels = (consonantArray: string[], vowelPattern: string[]): string[] =
     }
   }
   return word;
-}
+};
 
 const checkWordArray = (phonemes: string[]) => {
   if (isConsonant(phonemes[0])) {
@@ -86,7 +86,7 @@ const checkWordArray = (phonemes: string[]) => {
     }
   }
   return true;
-}
+};
 
 const generateWordArray = (vowelPatterns: string[][], numConsonants: number = 3): string[] => {
   const validVowelPatterns: string[][] = [];
@@ -103,25 +103,18 @@ const generateWordArray = (vowelPatterns: string[][], numConsonants: number = 3)
   } else {
     return generateWordArray(vowelPatterns); // zomg recursion
   }
-}
+};
 
 const generateWord = (minRootLength: number, maxRootLength: number) => {
   const vowelPatterns = generateVowelPatterns(minRootLength, maxRootLength);
   const wordArray = generateWordArray(vowelPatterns);
   return toTitleCase(wordArray.join(''));
-}
-
-const femaleSuffixes = ['ea', 'ia', 'isa', 'ana', 'iana', 'ela', 'ika', 'ina']
-const lastNameSuffixes = ['az', 'ak', 'ar', 'ach', 'an', 'ev', 'og', 'ot', 'op', 'iz', 'it', 'im', 'ask']
+};
 
 const generateFullName = () => {
-  const minRootLength = 1;
-  const maxRootLength = 2;
-  const firstName = (random.randint(1, 3) === 3)
-    ? `${generateWord(minRootLength, maxRootLength)}${random.choice(femaleSuffixes)}`
-    : generateWord(minRootLength, maxRootLength);
-  const lastName = `${generateWord(minRootLength, maxRootLength)}${random.choice(lastNameSuffixes)}`;
+  const firstName = generateWord(1, 3);
+  const lastName = generateWord(2, 4);
   return `${firstName} ${lastName}`;
-}
+};
 
 export { generateFullName };

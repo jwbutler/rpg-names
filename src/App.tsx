@@ -7,6 +7,9 @@ function App() {
 
   return (
     <div className={styles.app}>
+      <h1 className={styles.header}>
+        RPG Name Generator
+      </h1>
       <div className={styles.names}>
         {names.map(name => (
           <div className={styles.name} key={name}>
