@@ -16,55 +16,8 @@ const vowels = [
   'u'  // as in 'put'
 ]
 
-const cleanup_shifts: Record<string, string> = {
-  'dge': 'j',
-  'ck':  'k',
-  'ph':  'f',
-  'qu':  'kw',
-  'wh':  'w',
-  'c':   'k',
-  'x':   'ks'
-};
-
-const possible_shifts: Record<string, string[]> = {
-  'a':  ['a', 'e', 'o'],
-  'b':  ['b', 'p', 'm'],
-  'ch': ['ch', 'j', 'sh', 'zh'],
-  'd':  ['d', 't', 'th', 'n'],
-  'e':  ['a', 'e', 'i'],
-  'f':  ['f', 'p', 'th', 'v'],
-  'g':  ['g', 'gh', 'h', 'kh', 'k'],
-  'gh': ['g', 'gh', 'h', 'kh'],
-  'h':  ['h', 'gh', 'kh', 'y', 'g'],
-  'i':  ['i', 'e', 'u'],
-  'j':  ['j', 'ch', 'sh', 'zh'],
-  'k':  ['k', 'kh', 'g'],
-  'kh': ['kh', 'g', 'gh', 'h', 'k'],
-  'l':  ['l'],
-  'm':  ['m', 'b'],
-  'n':  ['n', 'd'],
-  'o':  ['o', 'a', 'e'],
-  'p':  ['p', 'b', 'f'],
-  'r':  ['r'],
-  's':  ['s', 'z'],
-  'sh': ['sh', 'ch', 'j', 'zh'],
-  't':  ['t', 'd', 'n', 'th'],
-  'th': ['th', 'f', 't'],
-  'u':  ['u', 'o'],
-  'v':  ['v', 'f', 'w'],
-  'w':  ['w', 'v'],
-  'y':  ['y', 'g', 'h'],
-  'z':  ['z', 's'],
-  'zh': ['zh', 'ch', 'j', 'sh']
-};
-
-const shifts: Record<string, string> = {};
-Object.keys(possible_shifts).forEach(key => {
-  shifts[key] = random.choice(possible_shifts[key])
-});
-
 // returns the consonants that can follow a consonant to form single-syllable blends.
-const next_consonants_initial: Record<string, string[]> = {
+const nextConsonantsInitial: Record<string, string[]> = {
   'b':  ['l', 'r', 'v', 'w', 'y', 'z', 'zh'],
   'ch': ['r', 'w', 'y'],
   'd':  ['j', 'r', 'v', 'w', 'y', 'z', 'zh'],
@@ -91,7 +44,7 @@ const next_consonants_initial: Record<string, string[]> = {
   'zh': ['b', 'd', 'g', 'l', 'm', 'r', 'v', 'w']
 }
 
-const next_consonants_final: Record<string, string[]> = {
+const nextConsonantsFinal: Record<string, string[]> = {
   'b':  ['v', 'z', 'zh'],
   'ch': ['t'],
   'd':  ['z', 'zh'],
@@ -119,19 +72,16 @@ const next_consonants_final: Record<string, string[]> = {
 };
 
 const isConsonant = (phoneme: string) => consonants.includes(phoneme);
-const isVowel = (phoneme: string) => vowels.includes(phoneme);
-const isVowelOrConsonant = (phoneme: string) => isVowel(phoneme) || isConsonant(phoneme);
 
-const isValidInitialConsonantPair = (first: string, second: string) => next_consonants_initial[first].includes(second);
-const isValidFinalConsonantPair = (first: string, second: string) => next_consonants_final[first].includes(second);
+const isValidInitialConsonantPair = (first: string, second: string) => nextConsonantsInitial[first].includes(second);
+const isValidFinalConsonantPair = (first: string, second: string) => nextConsonantsFinal[first].includes(second);
+
+const randomConsonant = () => random.choice(consonants);
 
 export {
-  consonants,
   vowels,
-  cleanup_shifts,
   isConsonant,
-  isVowel,
-  isVowelOrConsonant,
   isValidInitialConsonantPair,
-  isValidFinalConsonantPair
+  isValidFinalConsonantPair,
+  randomConsonant
 };
