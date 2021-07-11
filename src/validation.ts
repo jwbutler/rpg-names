@@ -21,7 +21,7 @@ const nextConsonantsInitial: Record<string, string[]> = {
   'sh': ['k', 'l', 'm', 'n', 'p', 't', 'w', 'y'],
   't':  ['r', 's', 'sh', 'w', 'y'],
   'th': ['r', 'w'],
-  'v':  ['l', 'r', 'w', 'y', 'z'],
+  'v':  ['l', 'r', 'w', 'y'],
   'w':  ['r'],
   'y':  [],
   'z':  ['l', 'm', 'r', 'v', 'w', 'y'],
