@@ -2,11 +2,9 @@ import random from './random';
 import { toTitleCase } from './string';
 import {
   vowels,
-  isConsonant,
-  isValidFinalConsonantPair,
-  isValidInitialConsonantPair,
-  randomConsonant
+  randomConsonant,
 } from './language';
+import { validatePhonemes } from './validation';
 
 const CONSONANT_PLACEHOLDER = 'C';
 
@@ -32,7 +30,7 @@ const generateVowelPatterns = (minVowels: number, maxVowels: number) => {
           const pattern = [v1, CONSONANT_PLACEHOLDER, v2, CONSONANT_PLACEHOLDER, v3, CONSONANT_PLACEHOLDER, v4];
           const numVowels = pattern.filter(s => s !== CONSONANT_PLACEHOLDER && s !== null).length;
           if (numVowels === targetNumVowels) {
-            patterns.push(pattern.filter(s => s !== null));
+            patterns.push(pattern.filter(s => s !== null) as string[]); // really typescript?
           }
         }
       }
@@ -53,47 +51,12 @@ const addVowels = (consonantArray: string[], vowelPattern: string[]): string[] =
   return word;
 };
 
-const checkWordArray = (phonemes: string[]) => {
-  if (isConsonant(phonemes[0])) {
-    if (isConsonant(phonemes[1])) {
-      if (isConsonant(phonemes[2])) {
-        if (!isValidInitialConsonantPair(phonemes[1], phonemes[2])) {
-          return false;
-        } else if (!isValidFinalConsonantPair(phonemes[0], phonemes[1])) {
-          return false;
-        }
-      }
-      if (!isValidInitialConsonantPair(phonemes[0], phonemes[1])) {
-        return false;
-      }
-    }
-  }
-
-  const lastIndex = phonemes.length - 1;
-  if (isConsonant(phonemes[lastIndex]) && isConsonant(phonemes[lastIndex - 1])) {
-    if (!isValidFinalConsonantPair(phonemes[lastIndex - 1], phonemes[lastIndex])) {
-      return false;
-    }
-  }
-
-  for (let i = 0; i <= lastIndex - 2; i++) {
-    if (isConsonant(phonemes[i]) && isConsonant(phonemes[i + 1]) && isConsonant(phonemes[i + 2])) {
-      if (!isValidInitialConsonantPair(phonemes[i + 1], phonemes[i+2])) {
-        return false;
-      } else if ((i === lastIndex - 2) && !isValidInitialConsonantPair(phonemes[i], phonemes[i+1])) {
-        return false;
-      }
-    }
-  }
-  return true;
-};
-
 const generateWordArray = (vowelPatterns: string[][], numConsonants: number = 3): string[] => {
   const validVowelPatterns: string[][] = [];
   const root: string[] = generateConsonantArray(numConsonants);
   for (let vowelPattern of vowelPatterns) {
     const wordArray = addVowels(root, vowelPattern);
-    if (checkWordArray(wordArray)) {
+    if (validatePhonemes(wordArray)) {
       validVowelPatterns.push(vowelPattern);
     }
   }
