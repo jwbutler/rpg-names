@@ -19,5 +19,10 @@ const choice = <T> (list: T[]): T => {
   return list[i];
 }
 
-const random = { randint, choice };
+const random = {
+  choice,
+  randint,
+  random: Math.random
+};
+
 export default random;
